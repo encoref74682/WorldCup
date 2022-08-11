@@ -1,17 +1,69 @@
-var dataUrl= "https://push.bodan2020.com/worldCupMatch/json.php?f=1"
+var dataUrl= "https://py.bodan2020.com/worldCup/score/json.php"
 var xhr = new XMLHttpRequest()
 xhr.open('GET',dataUrl, true)
 xhr.send()
 xhr.onload = function(){
     let jArray = JSON.parse(this.responseText);
     document.getElementById("matchScore").appendChild(generateTable(jArray))
+    filterButton();
 }
 
+
 function generateTable (jArray) {
+
+    let ul = document.createElement('ul');
+    ul.setAttribute('id','portfolio-flters');
+    let li1 = document.createElement('li');
+    li1.textContent = "全部";
+    li1.classList.add('filterBtn','filter-active');
+    li1.setAttribute('id','filter-allButton');
+    let li2 = document.createElement('li');
+    li2.textContent = "小組賽第一輪";
+    li2.classList.add('filterBtn');
+    li2.setAttribute('id','filter-groupFirstRoundButton');
+    let li3 = document.createElement('li');
+    li3.textContent = "小組賽第二輪";
+    li3.classList.add('filterBtn');
+    li3.setAttribute('id','filter-groupSecondRoundButton');
+    let li4 = document.createElement('li');
+    li4.textContent = "小組賽第三輪";
+    li4.classList.add('filterBtn');
+    li4.setAttribute('id','filter-groupThirdRoundButton');
+    let li5 = document.createElement('li');
+    li5.textContent = "16強賽";
+    li5.classList.add('filterBtn');
+    li5.setAttribute('id','filter-roundOf16Button');
+    let li6 = document.createElement('li');
+    li6.textContent = "8強賽";
+    li6.classList.add('filterBtn');
+    li6.setAttribute('id','filter-quarterFinalsButton');
+    let li7 = document.createElement('li');
+    li7.textContent = "4強賽";
+    li7.classList.add('filterBtn');
+    li7.setAttribute('id','filter-semiFinalsButton');
+    let li8 = document.createElement('li');
+    li8.textContent = "季軍戰";
+    li8.classList.add('filterBtn');
+    li8.setAttribute('id','filter-thirdPlacePlayoffButton');
+    let li9 = document.createElement('li');
+    li9.textContent = "冠軍戰";
+    li9.classList.add('filterBtn');
+    li9.setAttribute('id','filter-finalButton');
+    ul.appendChild(li1);
+    ul.appendChild(li2);
+    ul.appendChild(li3);
+    ul.appendChild(li4);
+    ul.appendChild(li5);
+    ul.appendChild(li6);
+    ul.appendChild(li7);
+    ul.appendChild(li8);
+    ul.appendChild(li9);
+
     let tbody = document.createElement('tbody');
     let thead = document.createElement('thead');
     let table = document.createElement('table');
     let newDiv1 = document.createElement("div");
+    let newDiv2 = document.createElement("div");
     var matchNumber = 0;
     table.classList.add('table' , 'custom-table');
     newDiv1.classList.add('table-responsive' , 'container' , 'content', 'portfolio-container');
@@ -32,6 +84,7 @@ function generateTable (jArray) {
         let soccerPlayingImg = document.createElement("img");
         soccerPlayingImg.src = "https://push.bodan2020.com/worldCupMatch/images/soccer.gif";
         let matchTime = document.createElement("p");
+        let matchTypeP = document.createElement("p");
         let matchTimeUntil = document.createElement("small");
         matchTimeUntil.classList.add('d-block');
 
@@ -41,8 +94,11 @@ function generateTable (jArray) {
         let matchHour = matchDay.slice(11,13);
         let matchMin = matchDay.slice(14,16);
         let matchSec = matchDay.slice(17,19);
+        
+        
 
         switch (tdName) {
+    
           case "球隊1":
             td.classList.add('td_team' , compareScore(row["球隊1分數"],row["球隊2分數"]));
             flagDiv.appendChild(flagImg);
@@ -60,14 +116,17 @@ function generateTable (jArray) {
           case "賽程":
             var matchTypeName = row["賽程"];
             tr.classList.add(matchTypeFilter(matchTypeName));
+            //td.textContent = row[tdName];
             if(row["進行中"] === "1"){
                 td.textContent += "比賽進行中";
                 td.appendChild(soccerPlayingImg);
+            }else if(row["進行中"] === "2"){
+                td.textContent += "比賽結束";
             }else{
               setInterval(function(){ matchTimeUntil.textContent = compareMatchDate (matchMonth,matchDate,matchHour,matchMin,matchSec); },1000);
-              matchTime.textContent = row["時間"];
-              td.appendChild(matchTime);
-              td.appendChild(matchTimeUntil);
+              matchTime.textContent = matchType(matchTypeName);
+              matchTypeP.textContent = row["時間"];
+              td.appendChild(matchTime).appendChild(matchTypeP).appendChild(matchTimeUntil);
             }
 
             td.classList.add('td_'+tdName);
@@ -93,7 +152,8 @@ function generateTable (jArray) {
         });
 
         matchNumber = matchNumber +1;
-        tr.classList.add('tr_'+matchNumber , 'portfolio-item', 'fadeInUp');
+        
+        tr.classList.add('tr_'+matchNumber,'trMatch');
         tbody.appendChild(tr);
     });
     table.appendChild(tbody);
@@ -103,7 +163,9 @@ function generateTable (jArray) {
 
     Object.keys(jArray[0]).forEach(header => {
         let th = document.createElement('th');
+        
         switch (header) {
+          
           case "球隊1":
             th.textContent = "國家";
             headerTr.appendChild(th);
@@ -133,7 +195,9 @@ function generateTable (jArray) {
     thead.appendChild(headerTr);
     table.appendChild(thead);
     newDiv1.appendChild(table);
-    return newDiv1;
+    newDiv2.appendChild(ul);
+    newDiv2.appendChild(newDiv1)
+    return newDiv2;
 }
 
 function compareScore (scoreA , scoreB) {
@@ -245,8 +309,6 @@ function compareMatchDate (matchMonth,matchDate,matchHours,matchMinutes,matchSec
   }
 }
 
-
-
 function matchTypeFilter(matchName){
   if(matchName.includes("小組賽")){
     if(matchName.includes("第一輪")){
@@ -266,5 +328,100 @@ function matchTypeFilter(matchName){
     return 'filter-thirdPlacePlayoff';
   }else if(matchName.includes("決賽")){
     return 'filter-final';
+  }
+}
+
+function matchType(matchName){
+  
+  if(matchName.includes("小組賽")){
+    let rule = /[A-H]/;
+    groupNameSearch = matchName.search(rule);
+    group = matchName.substr(groupNameSearch,groupNameSearch-2);
+    return group;
+  }else if(matchName.includes("16強賽")){
+    return '16強賽';
+  }else if(matchName.includes("8強賽")){
+    return '8強賽';
+  }else if(matchName.includes("準決賽")){
+    return '4強賽';
+  }else if(matchName.includes("第三名")){
+    return '季軍戰';
+  }else if(matchName.includes("決賽")){
+    return '冠軍戰';
+  }
+}
+
+function filterButton(){
+  var allMatchTr = document.getElementsByClassName("trMatch");
+  var groupFirstRound = document.getElementsByClassName("filter-groupFirstRound");
+  var groupSecondRound = document.getElementsByClassName("filter-groupSecondRound");
+  var groupThirdRound = document.getElementsByClassName("filter-groupThirdRound");
+  var roundOf16 = document.getElementsByClassName("filter-roundOf16");
+  var quarterFinals = document.getElementsByClassName("filter-quarterFinals");
+  var semiFinals = document.getElementsByClassName("filter-semiFinals");
+  var thirdPlacePlayoff = document.getElementsByClassName("filter-thirdPlacePlayoff");
+  var final = document.getElementsByClassName("filter-final");
+  var allButton = document.getElementsByClassName("filterBtn");
+  var allMatchButton = document.getElementById("filter-allButton");
+  var groupFirstRoundButton = document.getElementById("filter-groupFirstRoundButton");
+  var groupSecondRoundButton = document.getElementById("filter-groupSecondRoundButton");
+  var groupThirdRoundButton = document.getElementById("filter-groupThirdRoundButton");
+  var roundOf16Button = document.getElementById("filter-roundOf16Button");
+  var quarterFinalsButton = document.getElementById("filter-quarterFinalsButton");
+  var semiFinalsButton = document.getElementById("filter-semiFinalsButton");
+  var thirdPlacePlayoffButton = document.getElementById("filter-thirdPlacePlayoffButton");
+  var finalButton = document.getElementById("filter-finalButton");
+  allMatchButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    allMatchButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="table-row";};
+  }
+  groupFirstRoundButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    groupFirstRoundButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<groupFirstRound.length;i++){groupFirstRound[i].style.display="table-row";};
+  }
+  groupSecondRoundButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    groupSecondRoundButton.classList.add('filter-active');
+      for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<groupSecondRound.length;i++){groupSecondRound[i].style.display="table-row";};
+  }
+  groupThirdRoundButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    groupThirdRoundButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<groupThirdRound.length;i++){groupThirdRound[i].style.display="table-row";};
+  }
+  roundOf16Button.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    roundOf16Button.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<roundOf16.length;i++){roundOf16[i].style.display="table-row";};
+  }
+  quarterFinalsButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    quarterFinalsButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<quarterFinals.length;i++){quarterFinals[i].style.display="table-row";};
+  }
+  semiFinalsButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    semiFinalsButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<semiFinals.length;i++){semiFinals[i].style.display="table-row";};
+  }
+  thirdPlacePlayoffButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    thirdPlacePlayoffButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<thirdPlacePlayoff.length;i++){thirdPlacePlayoff[i].style.display="table-row";};
+  }
+  finalButton.onclick = function(){
+    for(var i=0; i<allButton.length;i++){allButton[i].classList.remove('filter-active');};
+    finalButton.classList.add('filter-active');
+    for(var i=0; i<allMatchTr.length;i++){allMatchTr[i].style.display="none";};
+    for(var i=0; i<final.length;i++){final[i].style.display="table-row";};
   }
 }
