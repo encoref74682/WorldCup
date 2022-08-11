@@ -8,7 +8,7 @@ body {
 /**.custom-table {min-width: 900px;}**/
 
 .content {
-  padding: 0 5vw 5rem 5vw; }
+  padding: 1rem 5vw 5rem 5vw; }
 
 .td_score{ font-size: 20px; }
 .td_winTeam.td_score{ color:red; font-weight: 600; }
@@ -90,4 +90,21 @@ body {
 
 #portfolio-flters{
   padding: 5rem 5vw 0 5vw;
+}
+td img{ 
+    display:inline; 
+}
+.pagination{
+    display:block;
+}
+
+
+/*首頁videos div*/
+div #dplayer1{
+    width: 60%;
+    margin:0 auto;
+}
+#dplayer1-title{
+    font-size:1.5em;
+    margin:2% 10% 10px 10%;
 }
