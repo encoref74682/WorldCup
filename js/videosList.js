@@ -48,7 +48,6 @@ var dataUrl= "https://py.bodan2020.com/worldCup/videos/json.php"
                         return false;
                     }
                     let detail = data.data;
-                    console.log(detail);
                     //应用获取到的视频信息
                     document.getElementById(title_p).innerHTML = detail.title;
                     dp = new DPlayer({
