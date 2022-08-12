@@ -1,0 +1,24 @@
+body{
+	background: url('https://library.sportingnews.com/styles/twitter_card_120x120/s3/2022-02/FIFA%20Club%20World%20Cup%20trophy%20020422.jpg') no-repeat center fixed;
+}
+
+.container{
+	margin-bottom: 50px;
+}
+
+.worldCupVideosList{
+	margin: 50px 0 0 0;
+}
+
+.worldCupVideosList p{
+	text-align: center;
+	color: white;
+	font-size: 1.2em;
+	font-weight: bold;
+
+}
+
+.videosPage{
+	float: right;
+	margin: 10px 5px;
+}
