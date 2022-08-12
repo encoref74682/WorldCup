@@ -36,7 +36,7 @@ var dataUrl= "https://py.bodan2020.com/worldCup/videos/json.php"
                     hotkey: true, //开启热键控制
                     autoplay: true, //自动播放
                     volume: 1, //音量大小
-                    playbackSpeed: '[0.5,0.75,1,1.25,1.5,2]', //播放速度调节
+                    playbackSpeed: [0.5,0.75,1,1.25,1.5,2], //播放速度调节
                     preload: 'auto', //预加载方式
                     video: {
                         url: url, //视频链接
