@@ -43,6 +43,7 @@ var dataUrl= "https://py.bodan2020.com/worldCup/videos/json.php"
                         pic: detail.pic //视频封面
                     }
                 });
+                dp.seek(getRandom(60,480));
             });
         });
     }
@@ -69,3 +70,6 @@ const check = (data) => {
     }
 }
 
+function getRandom(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+};
