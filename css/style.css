@@ -108,3 +108,8 @@ div #dplayer1{
     font-size:1.5em;
     margin:2% 10% 10px 10%;
 }
+.videoslist{
+      margin: 40px auto 0 auto;
+      width: 60%;
+      font-size: 1.8em;
+    }
