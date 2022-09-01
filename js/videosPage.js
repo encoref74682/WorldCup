@@ -4,14 +4,13 @@ window.onload = function () {
 let domain = 'https://api.mdzz.pro/';
 
 const demo = () => {
-
+    let filterBv = location.pathname.replace('/', '').replace('.html', '');
     let dp = null;
     let scrollFlag = 0;
     let map = {
-        bv: 'BV193411H7Yt', //视频BV号 location.pathname
+        bv: filterBv, //视频BV号 
         p: 1 //视频分P
     };
-
     //拉取视频地址
     fetch(domain + '/bilibili/parse/video?bv=' + map['bv'] + '&p=' + map['p']).then(res => res.json()).then(data => {
         if (check(data)) {
@@ -26,6 +25,7 @@ const demo = () => {
             let detail = data.data;
             //应用获取到的视频信息
             document.getElementsByTagName('h2')[0].innerHTML = detail.title;
+            document.getElementById('videoTitle').innerHTML = detail.title;
             layout();
             dp = new DPlayer({
                 element: document.getElementById('dplayer1'),
