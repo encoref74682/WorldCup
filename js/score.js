@@ -18,35 +18,35 @@ function generateTable (jArray) {
     li1.classList.add('filterBtn','filter-active');
     li1.setAttribute('id','filter-allButton');
     let li2 = document.createElement('li');
-    li2.textContent = "小組賽第一輪";
+    li2.textContent = "小组赛第一轮";
     li2.classList.add('filterBtn');
     li2.setAttribute('id','filter-groupFirstRoundButton');
     let li3 = document.createElement('li');
-    li3.textContent = "小組賽第二輪";
+    li3.textContent = "小组赛第二轮";
     li3.classList.add('filterBtn');
     li3.setAttribute('id','filter-groupSecondRoundButton');
     let li4 = document.createElement('li');
-    li4.textContent = "小組賽第三輪";
+    li4.textContent = "小组赛第三轮";
     li4.classList.add('filterBtn');
     li4.setAttribute('id','filter-groupThirdRoundButton');
     let li5 = document.createElement('li');
-    li5.textContent = "16強賽";
+    li5.textContent = "16强赛";
     li5.classList.add('filterBtn');
     li5.setAttribute('id','filter-roundOf16Button');
     let li6 = document.createElement('li');
-    li6.textContent = "8強賽";
+    li6.textContent = "8强赛";
     li6.classList.add('filterBtn');
     li6.setAttribute('id','filter-quarterFinalsButton');
     let li7 = document.createElement('li');
-    li7.textContent = "4強賽";
+    li7.textContent = "4强赛";
     li7.classList.add('filterBtn');
     li7.setAttribute('id','filter-semiFinalsButton');
     let li8 = document.createElement('li');
-    li8.textContent = "季軍戰";
+    li8.textContent = "季军战";
     li8.classList.add('filterBtn');
     li8.setAttribute('id','filter-thirdPlacePlayoffButton');
     let li9 = document.createElement('li');
-    li9.textContent = "冠軍戰";
+    li9.textContent = "冠军战";
     li9.classList.add('filterBtn');
     li9.setAttribute('id','filter-finalButton');
     ul.appendChild(li1);
@@ -118,10 +118,10 @@ function generateTable (jArray) {
             tr.classList.add(matchTypeFilter(matchTypeName));
             //td.textContent = row[tdName];
             if(row["進行中"] === "1"){
-                td.textContent += "比賽進行中";
+                td.textContent += "比赛进行中";
                 td.appendChild(soccerPlayingImg);
             }else if(row["進行中"] === "2"){
-                td.textContent += "比賽結束";
+                td.textContent += "比赛结束";
             }else{
               setInterval(function(){ matchTimeUntil.textContent = compareMatchDate (matchMonth,matchDate,matchHour,matchMin,matchSec); },1000);
               matchTime.textContent = matchType(matchTypeName);
@@ -167,23 +167,23 @@ function generateTable (jArray) {
         switch (header) {
           
           case "球隊1":
-            th.textContent = "國家";
+            th.textContent = "国家";
             headerTr.appendChild(th);
             break;
           case "球隊1分數":
-            th.textContent = "分數";
+            th.textContent = "分数";
             headerTr.appendChild(th);
             break;
           case "賽程":
-            th.textContent = header;
+            th.textContent = "赛程";
             headerTr.appendChild(th);
             break;
           case "球隊2分數":
-            th.textContent = "分數";
+            th.textContent = "分数";
             headerTr.appendChild(th);
             break;
           case "球隊2":
-            th.textContent = "國家";
+            th.textContent = "国家";
             headerTr.appendChild(th);
             break;
           default:
@@ -300,11 +300,11 @@ function compareMatchDate (matchMonth,matchDate,matchHours,matchMinutes,matchSec
     if (days === 0){
       if(hours === 0){
         if(minutes === 0){
-          return "倒數" + seconds + "秒";}
-        return "倒數" + minutes + "分鐘" + seconds + "秒";}
-      return "倒數" + hours + "小時" + minutes + "分鐘" + seconds + "秒";
+          return "倒数" + seconds + "秒";}
+        return "倒数" + minutes + "分钟" + seconds + "秒";}
+      return "倒数" + hours + "小时" + minutes + "分钟" + seconds + "秒";
     }else{
-      return "倒數" + days + "天" + hours + "小時" + minutes + "分鐘" + seconds + "秒";
+      return "倒数" + days + "天" + hours + "小时" + minutes + "分钟" + seconds + "秒";
     }
   }
 }
@@ -337,17 +337,17 @@ function matchType(matchName){
     let rule = /[A-H]/;
     groupNameSearch = matchName.search(rule);
     group = matchName.substr(groupNameSearch,groupNameSearch-2);
-    return group;
+    return group.replace("組","组");
   }else if(matchName.includes("16強賽")){
-    return '16強賽';
+    return '16强赛';
   }else if(matchName.includes("8強賽")){
-    return '8強賽';
+    return '8强赛';
   }else if(matchName.includes("準決賽")){
-    return '4強賽';
+    return '4强赛';
   }else if(matchName.includes("第三名")){
-    return '季軍戰';
+    return '季军战';
   }else if(matchName.includes("決賽")){
-    return '冠軍戰';
+    return '冠军战';
   }
 }
 
