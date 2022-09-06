@@ -22,7 +22,7 @@ var dataUrl= "https://py.bodan2020.com/worldCup/videos/json.php"
             videoTitlePTag.setAttribute('id',title_p);
             videoTitlePTag.classList.add('bg-secondary','text-truncate');
             videoPage.href = "/" + row["BV"];
-            videoPage.textContent = "完整影片";
+            videoPage.textContent = "整集视频";
             videoPage.classList.add('videosPage','btn','btn-primary');
             videosDiv.appendChild(videoTitlePTag);
             videosDiv.appendChild(playerDiv);
