@@ -11,7 +11,7 @@ var dataUrl= "https://py.bodan2020.com/worldCup/videos/json.php"
         var randomVideo = jArray[Math.floor(Math.random()*jArray.length)]["BV"];
         let videoPage = document.createElement("a");
         videoPage.href = "/世界杯视频列表";
-        videoPage.textContent = "點此進 [世界杯線上直播] 及 [歷年视频總整理] 頁面";
+        videoPage.textContent = "点此进入 [世界杯线上直播] 及 [历年视频合集] 页面";
         videoPage.classList.add('btn','btn-lg','btn-primary','videoslist');
         document.getElementsByClassName('worldCupVideos')[0].appendChild(videoPage);
         let dp = null;
